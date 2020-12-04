@@ -7,7 +7,9 @@ const proxy = require('express-http-proxy');
 const app = express();
 app.use(bodyParser.json());
 // file proxy route
-app.use('/opencv_zynq7000.tar.gz', proxy('https://github.com/operezcham90/opencv_zynq7000/releases/download/release/opencv_zynq7000.tar.gz'));
+app.use('/opencv_zynq7000.tar.gz', proxy('https://github.com', {
+    proxyReqPathResolver: req => '/operezcham90/opencv_zynq7000/releases/download/release/opencv_zynq7000.tar.gz'
+}));
 // root route
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: __dirname });
