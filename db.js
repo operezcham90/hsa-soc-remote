@@ -75,6 +75,8 @@ exports.log.get = (callback) => {
             }
             callback(rows);
         });
+    }).catch((err) => {
+        callback(err);
     });
 };
 exports.log.delete = (callback) => {
