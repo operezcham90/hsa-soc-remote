@@ -1,4 +1,4 @@
-const { Client } = require('pg').native;
+const { Client } = require('pg');
 function timeSince(date) {
     var seconds = Math.floor((new Date() - date) / 1000);
     var interval = seconds / 31536000;
@@ -26,7 +26,7 @@ function timeSince(date) {
 exports.log = {};
 exports.log.migrate = () => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.DATABASE_URL + '?ssl=true'
     });
     client.connect().then(() => {
         const statement = `CREATE TABLE IF NOT EXISTS log (
@@ -40,7 +40,7 @@ exports.log.migrate = () => {
 };
 exports.log.post = (message, callback) => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.DATABASE_URL + '?ssl=true'
     });
     client.connect().then(() => {
         const statement = `INSERT INTO log VALUES ($1, NOW());`;
@@ -57,7 +57,7 @@ exports.log.post = (message, callback) => {
 };
 exports.log.get = (callback) => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.DATABASE_URL + '?ssl=true'
     });
     client.connect().then(() => {
         const statement = `SELECT * FROM log
@@ -81,7 +81,7 @@ exports.log.get = (callback) => {
 };
 exports.log.delete = (callback) => {
     const client = new Client({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.DATABASE_URL + '?ssl=true'
     });
     client.connect().then(() => {
         const statement = `DELETE FROM log;`;
